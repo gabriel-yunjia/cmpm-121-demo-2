@@ -32,12 +32,14 @@ const ctx = canvas.getContext("2d");
 
 // draw state variables
 let isDrawing = false;
+let currentMarkerThickness = 2;
 
 class MarkerLine {
   private points: { x: number; y: number }[] = [];
-
+  private thickness: number;
   constructor(initialX: number, initialY: number) {
     this.points.push({ x: initialX, y: initialY });
+    this.thickness = currentMarkerThickness;
   }
 
   drag(x: number, y: number) {
@@ -48,7 +50,7 @@ class MarkerLine {
     if (this.points.length > 1) {
       ctx.strokeStyle = "black";
       ctx.lineJoin = "round";
-      ctx.lineWidth = 5;
+      ctx.lineWidth = this.thickness;
 
       ctx.beginPath();
       ctx.moveTo(this.points[0].x, this.points[0].y);
@@ -93,17 +95,34 @@ canvas.addEventListener("mouseup", () => {
 
 canvas.addEventListener("mouseout", () => (isDrawing = false));
 
-// Create a container for buttons arranged horizontally
 const horizontalContainer = document.createElement("div");
 horizontalContainer.style.display = "flex";
-horizontalContainer.style.justifyContent = "center"; // Center buttons horizontally
+horizontalContainer.style.justifyContent = "center";
 verticalContainer.append(horizontalContainer);
 
-// Create and add the "Clear" button
 const clearButton = document.createElement("button");
 clearButton.innerHTML = "Clear";
 clearButton.id = "clearButton";
 horizontalContainer.append(clearButton);
+
+const thinMarkerButton = document.createElement("button");
+thinMarkerButton.innerHTML = "Thin";
+thinMarkerButton.id = "thinMarkerButton";
+horizontalContainer.append(thinMarkerButton);
+
+const thickMarkerButton = document.createElement("button");
+thickMarkerButton.innerHTML = "Thick";
+thickMarkerButton.id = "thickMarkerButton";
+horizontalContainer.append(thickMarkerButton);
+
+// Add event listeners to the marker tool buttons
+thinMarkerButton.addEventListener("click", () => {
+  currentMarkerThickness = 1;
+});
+
+thickMarkerButton.addEventListener("click", () => {
+  currentMarkerThickness = 5;
+});
 
 // Clear button functionality
 clearButton.addEventListener("click", () => {
