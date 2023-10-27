@@ -346,6 +346,35 @@ function redo() {
   }
 }
 
+const exportButton = document.createElement("button");
+exportButton.innerHTML = "Export";
+exportButton.id = "exportButton";
+document.querySelector(".commandButtons")?.append(exportButton);
+
+// Export button functionality
+exportButton.addEventListener("click", () => {
+  const exportCanvas = document.createElement("canvas");
+  exportCanvas.width = 1024;
+  exportCanvas.height = 1024;
+
+  const exportCtx = exportCanvas.getContext("2d");
+
+  if (exportCtx) {
+    const scaleFactor = 4;
+    exportCtx.scale(scaleFactor, scaleFactor);
+
+    drawingData.displayList.forEach((command) => {
+      command.display(exportCtx);
+    });
+
+    const dataURL = exportCanvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = dataURL;
+    a.download = "exported_canvas.png";
+    a.click();
+  }
+});
+
 // Function to clear the canvas
 function clearCanvas() {
   if (ctx) {
