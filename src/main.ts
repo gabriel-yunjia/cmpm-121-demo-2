@@ -26,7 +26,7 @@ verticalContainer.append(canvas);
 const ctx = canvas.getContext("2d");
 
 let isDrawing = false;
-let currentMarkerThickness = 2;
+let currentMarkerThickness = 4;
 let sticker = "";
 
 class MarkerLine {
@@ -248,7 +248,7 @@ thinMarkerButton.addEventListener("click", () => {
 });
 
 thickMarkerButton.addEventListener("click", () => {
-  setBrush(5);
+  setBrush(8);
 });
 
 const customStickerButton = document.createElement("button");
